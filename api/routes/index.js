@@ -30,5 +30,27 @@ router.get('/productlines/get', (req, res)=>{
 	});
 });
 
+router.post('/register', (req, res)=>{
+	const name = req.body.name;
+	const email = req.body.email;
+	const accountType = 'customer';
+	const password = req.body.password;
+	console.log(req.body.city)
+	const city = req.body.city;
+	const state = req.body.state;
+	const salesRep = req.body.salesRep
+	var insertQuery = "INSERT INTO users (type,password) VALUES (?,?)";
+	connection.query(insertQuery,[accountType,password],(error,results)=>{
+		if(error){
+			res.json({
+				msg: error
+			})
+		}else{
+			res.json({
+				msg: "userInserted"
+			})
+		}
+	});
+})	
 
 module.exports = router;
