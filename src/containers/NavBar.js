@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Link, Route} from 'react-router-dom'
-import Slick from './Slick'
+import Slick from '../components/Slick'
 import $ from 'jquery'
 import {connect} from 'react-redux'
 
@@ -42,9 +42,11 @@ class NavBar extends Component{
 	}else{
 		var rightBar = [
 			<li key="1" className="text-right">Welcome, {this.props.registerInfo.name}</li>,
-			<li key="2" className="text-right"><Link to="/cart">(0) items in your cart | ($0.00)</Link></li>		
+			<li key="2" className="text-right"><Link to="/cart">(0) items in your cart | ($0.00)</Link></li>,	
+			<li key="3" className="text-right"><Link to="/logout">Logout</Link></li>	
 		]		
 	}
+
 
     return(
     	<div>
@@ -87,4 +89,7 @@ function mapStateToProps(state){
 }
 
 // export default NavBar
-export default connect(mapStateToProps)(NavBar)
+var connectVersion = connect(mapStateToProps);
+var exportedComp = connectVersion(NavBar)
+export default exportedComp;
+// export default connect(mapStateToProps)(NavBar)
