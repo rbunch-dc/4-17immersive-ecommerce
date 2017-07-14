@@ -59,7 +59,7 @@ router.post('/register', (req, res)=>{
 		// Get the ID that was used in the customers insert
 		const newID = results.insertId
 		// Get the current timestamp
-		var currTimeStamp = Date.now() / 1000;
+		var currTimeStamp = parseInt(Date.now() / 1000);
 		// Set up a token for this user. We will give this back to React
 		var token = randToken.uid(40);
 		// Users insert query
@@ -75,7 +75,7 @@ router.post('/register', (req, res)=>{
 				res.json({
 					msg: "userInserted",
 					token: token
-				})
+				});
 			}
 		});
 	})

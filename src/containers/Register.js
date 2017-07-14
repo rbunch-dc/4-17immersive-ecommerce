@@ -11,12 +11,15 @@ import {connect} from 'react-redux';
 class Register extends Component{
 	constructor(props) {
 		super(props);
+		this.state = {
+			registerMessage: ""
+		}
 		this.handleRegistration = this.handleRegistration.bind(this);
 	}
 
 	handleRegistration(event){
 		event.preventDefault();
-		console.log("User SUbmitted the form!!")
+		// console.log("User SUbmitted the form!!")
 		var name = event.target[0].value
 		var email = event.target[1].value
 		var accountType = "customer"
@@ -24,7 +27,7 @@ class Register extends Component{
 		var city = event.target[4].value
 		var state = event.target[5].value
 		var salesRep = event.target[6].value
-		console.log(name);
+		// console.log(name);
 		this.props.registerAction({
 			name: name,
 			email: email,
@@ -37,8 +40,18 @@ class Register extends Component{
 	}
 
 	render(){
+
+		console.log("=======================")
+		console.log(this.props.registerResponse)
+		console.log("=======================")
+
+		if(this.props.registerResponse.msg == 'userInserted'){
+			this.props.history.push('/');
+		}
+
 		return(
 			<div className="register-wrapper">
+				<h1>{this.state.registerMessage}</h1>
 				<Form horizontal onSubmit={this.handleRegistration}>
 					<FormGroup controlId="formHorizontalName">
 						<Col componentClass={ControlLabel} sm={2}>
@@ -109,6 +122,12 @@ class Register extends Component{
 	}
 }
 
+function mapStateToProps(state){
+	return{
+		registerResponse: state.registerReducer
+	}
+}
+
 function mapDispatchToProps(dispatch){
 	return bindActionCreators({
 		registerAction: RegisterAction
@@ -116,4 +135,4 @@ function mapDispatchToProps(dispatch){
 }
 
 // export default Register;
-export default connect(null,mapDispatchToProps)(Register);
+export default connect(mapStateToProps,mapDispatchToProps)(Register);
