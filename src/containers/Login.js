@@ -3,7 +3,7 @@ import { Form, FormGroup, ControlLabel, FormControl, Button, Col ,MenuItem} from
 // Our action needs bindActionCreators from redux
 import  {bindActionCreators} from 'redux';
 // Get the registerAction function which runs on submission
-import RegisterAction from '../actions/RegisterAction';
+import LoginAction from '../actions/LoginAction';
 // Because this is a container, we need connect from react-redux!
 import {connect} from 'react-redux';
 
@@ -49,14 +49,9 @@ class Login extends Component{
 				passwordError: passwordError
 			}) 
 		}else{
-			this.props.registerAction({
-				name: name,
+			this.props.loginAction({
 				email: email,
-				accountType: accountType,
-				password: password,
-				city: city,
-				state: state,
-				salesRep: salesRep
+				password: password
 			});
 		}
 	}
@@ -66,7 +61,7 @@ class Login extends Component{
 		console.log(nextProps.registerResponse)
 		console.log("=======================")
 
-		if(nextProps.registerResponse.msg == 'userInserted'){
+		if(nextProps.registerResponse.msg == 'loginSuccess'){
 			this.props.history.push('/');
 		}else if(nextProps.registerResponse.msg == 'userAlreadyExists'){
 			console.log("User name taken!")
@@ -123,7 +118,7 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
 	return bindActionCreators({
-		registerAction: RegisterAction
+		loginAction: LoginAction
 	}, dispatch)
 }
 

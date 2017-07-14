@@ -6,5 +6,8 @@ export default function(loginData){
 		url: window.hostAddress + '/login',
 		data: loginData
 	});
-	
+	return {
+		type: "REGISTER",
+		payload: thePromise
+	}
 }

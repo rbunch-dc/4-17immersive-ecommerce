@@ -105,4 +105,43 @@ router.post('/register', (req, res)=>{
 
 })	
 
+router.post('/login', (req, res)=>{
+	var email = req.body.email;
+	var password = req.body.password;
+	var checkLoginQuery = "SELECT * FROM users WHERE email = ?";
+	connection.query(checkLoginQuery, [email], (error,results)=>{
+		if(error) throw error;
+		if(results.length === 0){
+			// This email aint in the database
+			res.json({
+				msg: 'badUserName'
+			});
+		}else{
+			// The username is valid. See if the password is...
+			var checkHash = bcrypt.compareSync(password, results[0].password);
+			// checkHash will be true or false.
+			if(checkHash){
+				// this is teh droid we're looking for
+				// Log them in... i.e, create a token, update it, send it back
+				const updateToken = `Update users SET token=?, token_exp=DATE_ADD(NOW(), INTERVAL 1 HOUR)`
+				var token = randToken.uid(40);
+				connection.query(updateToken,[token],(error2,results2)=>{
+					res.json({
+						msg: 'loginSuccess',
+						name: results[0].name,
+						token: token
+					})
+				})
+			}else{
+				// These arent the droids were looking for.
+				// You don't want to sell me death sticks.
+				// You want to go home and rethink your life. Goodbye
+				res.json({
+					msg: 'wrongPassword'
+				})
+			}
+		}
+	})
+})
+
 module.exports = router;
