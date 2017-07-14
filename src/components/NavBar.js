@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Link, Route} from 'react-router-dom'
 import Slick from './Slick'
 import $ from 'jquery'
+import {connect} from 'react-redux'
 
 class NavBar extends Component{
 	constructor(props) {
@@ -31,7 +32,19 @@ class NavBar extends Component{
   			<Link key={index} to={`/shop/${pl.link}`}>{pl.productLine}</Link>
   		)
   	})
-
+	
+	if(this.props.registerInfo.name == undefined){
+		var rightBar = [
+			<li key="1" className="text-right"><Link to="/login">Login</Link></li>,
+			<li key="2" className="text-right"><Link to="/register">Register</Link></li>,
+			<li key="3" className="text-right"><Link to="/cart">(0) items in your cart | ($0.00)</Link></li>		
+		]
+	}else{
+		var rightBar = [
+			<li key="1" className="text-right">Welcome, {this.props.registerInfo.name}</li>,
+			<li key="2" className="text-right"><Link to="/cart">(0) items in your cart | ($0.00)</Link></li>		
+		]		
+	}
 
     return(
     	<div>
@@ -57,9 +70,7 @@ class NavBar extends Component{
 			    	<Link to="/" className="navbar-brand">ClassicModels</Link>
 			    </div>
 				   <ul className="nav navbar-nav float-right">
-				      <li className="text-right"><Link to="/login">Login</Link></li>
-				      <li className="text-right"><Link to="/register">Register</Link></li>
-				      <li className="text-right"><Link to="/cart">(0) items in your cart | ($0.00)</Link></li>
+				   		{rightBar}
 				   </ul>
 			  </div>
 			</nav>
@@ -69,4 +80,11 @@ class NavBar extends Component{
   }
 }
 
-export default NavBar
+function mapStateToProps(state){
+	return{
+		registerInfo: state.registerReducer
+	}
+}
+
+// export default NavBar
+export default connect(mapStateToProps)(NavBar)
