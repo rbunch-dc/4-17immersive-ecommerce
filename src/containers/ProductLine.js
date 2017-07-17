@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import $ from 'jquery';
+import ProductTableRow from '../components/ProductTableRow';
 
 class ProductLine extends Component{
 	constructor(props) {
@@ -23,51 +24,50 @@ class ProductLine extends Component{
 	}
 
 	sortTable(columnName){
+		console.log(columnName)
+		var productList = this.state.productList.slice();
 
+		productList.sort(function(a, b) {
+			console.log(a)
+			console.log(b)
+		    var textA = a[columnName];
+		    var textB = b[columnName];
+		    // ternary statement, after ? if true, after : if false
+		    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+		});
+		this.setState({
+			productList: productList
+		})
 	}
 
 	render(){
-
 		var productTableArray = [];
 		this.state.productList.map((product, index)=>{
-			if(product.quantityInStock > 100){
-				var inStockClass = "";
-				var inStock = "In Stock!"
-			}else if(product.quantityInStock >0){
-				var inStockClass = "bg-warning";
-				var inStock = 'Order Soon!'
-			}else{
-				var inStockClass = "bg-danger";
-				var inStock = 'Out of stock!'
-			}
-			productTableArray.push(
-				<tr key={index} >
-					<td>{product.productName}</td>
-					<td>{product.productScale}</td>
-					<td>{product.productVendor}</td>
-					<td>{product.productDescription}</td>
-					<td className={inStockClass}>{inStock}</td>
-					<td>{product.buyPrice}</td>
-					<td>{product.MSRP}</td>
-				</tr>
-			)
+			productTableArray.push(<ProductTableRow key={index} product={product} />)
 		})
+
+		if(this.state.productList.length == 0){
+			var textHeader = ""
+		}else{
+			var textHeader = this.state.productList[0].productLine
+		}
 
 		return(
 			<div>
-				<h1>{this.props.match.params.productLine}</h1>
+				<h1>{textHeader}</h1>
 				<table className="table table-striped">
 					<thead>
 						<tr>
-							<th className="table-head" onClick={()=>{this.sortTable("name")}}>Product Name</th>
-							<th className="table-head" onClick={()=>{this.sortTable("scale")}}>Model Scale</th>
-							<th className="table-head" onClick={()=>{this.sortTable("vendor")}}>Made By</th>
-							<th className="table-head" onClick={()=>{this.sortTable("desc")}}>Description</th>
-							<th className="table-head" onClick={()=>{this.sortTable("stock")}}>In Stock</th>
-							<th className="table-head" onClick={()=>{this.sortTable("price")}}>Your Price!</th>
-							<th className="table-head" onClick={()=>{this.sortTable("msrp")}}>MSRP</th>
+							<th className="table-head" onClick={()=>{this.sortTable("productName")}}>Product Name</th>
+							<th className="table-head" onClick={()=>{this.sortTable("productScale")}}>Model Scale</th>
+							<th className="table-head" onClick={()=>{this.sortTable("productVendor")}}>Made By</th>
+							<th className="table-head" onClick={()=>{this.sortTable("productDescription")}}>Description</th>
+							<th className="table-head" onClick={()=>{this.sortTable("quantityInStock")}}>In Stock</th>
+							<th className="table-head" onClick={()=>{this.sortTable("buyPrice")}}>Your Price!</th>
+							<th className="table-head" onClick={()=>{this.sortTable("MSRP")}}>MSRP</th>
 						</tr>
-					</thead>
+					</thead>									
+
 					<tbody>
 						{productTableArray}
 					</tbody>

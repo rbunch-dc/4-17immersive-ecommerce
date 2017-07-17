@@ -28,6 +28,10 @@
   			text-decoration: none;			
 		}
 	}
+	a:first-child{
+		border: 0px;
+		background-color: white;
+	}
 }
 
 $menu_links: 8;

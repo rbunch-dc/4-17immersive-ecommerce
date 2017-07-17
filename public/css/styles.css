@@ -36,48 +36,53 @@
   color: black;
   text-decoration: none;
 }
+/* line 31, ../../compass/sass/_header.scss */
+.dropdown a:first-child {
+  border: 0px;
+  background-color: white;
+}
 
-/* line 35, ../../compass/sass/_header.scss */
+/* line 39, ../../compass/sass/_header.scss */
 .dropdown-links a:nth-child(0) {
   top: 15px;
 }
 
-/* line 35, ../../compass/sass/_header.scss */
+/* line 39, ../../compass/sass/_header.scss */
 .dropdown-links a:nth-child(1) {
   top: 35px;
 }
 
-/* line 35, ../../compass/sass/_header.scss */
+/* line 39, ../../compass/sass/_header.scss */
 .dropdown-links a:nth-child(2) {
   top: 55px;
 }
 
-/* line 35, ../../compass/sass/_header.scss */
+/* line 39, ../../compass/sass/_header.scss */
 .dropdown-links a:nth-child(3) {
   top: 75px;
 }
 
-/* line 35, ../../compass/sass/_header.scss */
+/* line 39, ../../compass/sass/_header.scss */
 .dropdown-links a:nth-child(4) {
   top: 95px;
 }
 
-/* line 35, ../../compass/sass/_header.scss */
+/* line 39, ../../compass/sass/_header.scss */
 .dropdown-links a:nth-child(5) {
   top: 115px;
 }
 
-/* line 35, ../../compass/sass/_header.scss */
+/* line 39, ../../compass/sass/_header.scss */
 .dropdown-links a:nth-child(6) {
   top: 135px;
 }
 
-/* line 35, ../../compass/sass/_header.scss */
+/* line 39, ../../compass/sass/_header.scss */
 .dropdown-links a:nth-child(7) {
   top: 155px;
 }
 
-/* line 42, ../../compass/sass/_header.scss */
+/* line 46, ../../compass/sass/_header.scss */
 i {
   border: solid black;
   border-width: 0 3px 3px 0;
@@ -85,7 +90,7 @@ i {
   padding: 3px;
 }
 
-/* line 49, ../../compass/sass/_header.scss */
+/* line 53, ../../compass/sass/_header.scss */
 .down {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
@@ -137,5 +142,5 @@ i {
 
 /* line 14, ../../compass/sass/styles.scss */
 .main {
-  margin-top: 60px;
+  margin-top: 100px;
 }
