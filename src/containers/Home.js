@@ -26,12 +26,13 @@ class Home extends Component{
 			plImages.push(
 				<div key={index} className="col-sm-4 col-md-3 pl-images">
 					<Link to={`/shop/${row.link}`}><img src={row.image} /></Link>
+					<div className="text">{row.productLine}</div>
 				</div>
 			)
 		})
 		return(
 			<div>
-				<h1>{plImages}</h1>
+				{plImages}
 			</div>
 		)
 	}
