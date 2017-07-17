@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
-import {Link, Route} from 'react-router-dom'
-import Slick from '../components/Slick'
+import { Link } from 'react-router-dom'
 import $ from 'jquery'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 class NavBar extends Component{
 	constructor(props) {
@@ -18,8 +17,8 @@ class NavBar extends Component{
 			console.log(productlinesData);
 			this.setState({
 				productlines: productlinesData
-			})
-		})
+			});
+		});
 	}
 
   render(){
@@ -27,7 +26,7 @@ class NavBar extends Component{
   	const shopMenu = [];
   	// Map through this.state.productlines. First render, will not loop (because array is empty)
   	this.state.productlines.map((pl,index)=>{
-  		console.log(pl)
+  		// console.log(pl)
   		shopMenu.push(
   			<Link key={index} to={`/shop/${pl.link}`}>{pl.productLine}</Link>
   		)
@@ -76,7 +75,6 @@ class NavBar extends Component{
 				   </ul>
 			  </div>
 			</nav>
-	        <Route exact path="/" component={Slick} />
         </div>
 	)
   }

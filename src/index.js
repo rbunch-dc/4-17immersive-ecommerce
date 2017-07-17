@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import Home from './containers/Home'
 
 // Go get the createStore method from the redux module
 // Add applyMiddleware to the list...
