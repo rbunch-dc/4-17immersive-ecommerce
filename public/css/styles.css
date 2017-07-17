@@ -117,17 +117,25 @@ i {
   font-size: 32px;
 }
 
-/* line 5, ../../compass/sass/styles.scss */
+/* line 1, ../../compass/sass/_products.scss */
+.table-head {
+  color: #0000ff;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* line 6, ../../compass/sass/styles.scss */
 .slick-image img {
   width: 100vw;
 }
 
-/* line 9, ../../compass/sass/styles.scss */
+/* line 10, ../../compass/sass/styles.scss */
 .App {
   text-align: center;
 }
 
-/* line 13, ../../compass/sass/styles.scss */
+/* line 14, ../../compass/sass/styles.scss */
 .main {
   margin-top: 60px;
 }

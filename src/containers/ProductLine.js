@@ -22,16 +22,23 @@ class ProductLine extends Component{
 		});
 	}
 
+	sortTable(columnName){
+
+	}
+
 	render(){
 
 		var productTableArray = [];
 		this.state.productList.map((product, index)=>{
 			if(product.quantityInStock > 100){
+				var inStockClass = "";
 				var inStock = "In Stock!"
 			}else if(product.quantityInStock >0){
-				var inStock = '<td className="text-caution">Order Soon!</td>'
+				var inStockClass = "bg-warning";
+				var inStock = 'Order Soon!'
 			}else{
-				var inStock = '<td className="text-danger">Out of stock!</td>'
+				var inStockClass = "bg-danger";
+				var inStock = 'Out of stock!'
 			}
 			productTableArray.push(
 				<tr key={index} >
@@ -39,7 +46,7 @@ class ProductLine extends Component{
 					<td>{product.productScale}</td>
 					<td>{product.productVendor}</td>
 					<td>{product.productDescription}</td>
-					{inStock}
+					<td className={inStockClass}>{inStock}</td>
 					<td>{product.buyPrice}</td>
 					<td>{product.MSRP}</td>
 				</tr>
@@ -51,13 +58,15 @@ class ProductLine extends Component{
 				<h1>{this.props.match.params.productLine}</h1>
 				<table className="table table-striped">
 					<thead>
-						<th>Product Name</th>
-						<th>Model Scale</th>
-						<th>Made By</th>
-						<th>Description</th>
-						<th>In Stock</th>
-						<th>Your Price!</th>
-						<th>MSRP</th>
+						<tr>
+							<th className="table-head" onClick={()=>{this.sortTable("name")}}>Product Name</th>
+							<th className="table-head" onClick={()=>{this.sortTable("scale")}}>Model Scale</th>
+							<th className="table-head" onClick={()=>{this.sortTable("vendor")}}>Made By</th>
+							<th className="table-head" onClick={()=>{this.sortTable("desc")}}>Description</th>
+							<th className="table-head" onClick={()=>{this.sortTable("stock")}}>In Stock</th>
+							<th className="table-head" onClick={()=>{this.sortTable("price")}}>Your Price!</th>
+							<th className="table-head" onClick={()=>{this.sortTable("msrp")}}>MSRP</th>
+						</tr>
 					</thead>
 					<tbody>
 						{productTableArray}
