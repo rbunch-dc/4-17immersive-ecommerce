@@ -57,10 +57,10 @@ router.post('/updateCart', (req, res)=>{
 		}else{
 			const addToCartQuery = `INSERT INTO cart (uid,productCode) 
 				VALUES (?,?)`;
-			connection.query(addToCartQuery,[results[0].id,req.body.productCode],(results2, error2)=>{
+			connection.query(addToCartQuery,[results[0].id,req.body.productCode],(error2,results2)=>{
 				const getCartTotals = `SELECT SUM(buyPrice) as totalPrice, count(buyPrice) as totalItems FROM cart 
 					INNER JOIN products ON products.productCode = cart.productCode WHERE uid=?`
-				connection.query(getCartTotals,[results[0].id],(results3, error3)=>{
+				connection.query(getCartTotals,[results[0].id],(error3,results3)=>{
 					if(error3){
 						res.json(error3)
 					}else{
@@ -146,7 +146,9 @@ router.post('/register', (req, res)=>{
 router.post('/login', (req, res)=>{
 	var email = req.body.email;
 	var password = req.body.password;
-	var checkLoginQuery = "SELECT * FROM users WHERE email = ?";
+	var checkLoginQuery = `SELECT * FROM users 
+		INNER JOIN customers ON users.uid = customers.customerNumber
+		WHERE email = ?`;
 	connection.query(checkLoginQuery, [email], (error,results)=>{
 		if(error) throw error;
 		if(results.length === 0){
@@ -165,9 +167,10 @@ router.post('/login', (req, res)=>{
 					WHERE email=?`
 				var token = randToken.uid(40);
 				connection.query(updateToken,[token,email],(error2,results2)=>{
+					console.log(results)
 					res.json({
 						msg: 'loginSuccess',
-						name: results[0].name,
+						name: results[0].customerName,
 						token: token
 					})
 				})
