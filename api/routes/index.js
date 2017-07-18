@@ -139,9 +139,10 @@ router.post('/login', (req, res)=>{
 			if(checkHash){
 				// this is teh droid we're looking for
 				// Log them in... i.e, create a token, update it, send it back
-				const updateToken = `Update users SET token=?, token_exp=DATE_ADD(NOW(), INTERVAL 1 HOUR)`
+				const updateToken = `Update users SET token=?, token_exp=DATE_ADD(NOW(), INTERVAL 1 HOUR)
+					WHERE email=?`
 				var token = randToken.uid(40);
-				connection.query(updateToken,[token],(error2,results2)=>{
+				connection.query(updateToken,[token,email],(error2,results2)=>{
 					res.json({
 						msg: 'loginSuccess',
 						name: results[0].name,

@@ -61,6 +61,15 @@ class ProductLine extends Component{
 	}
 
 	render(){
+
+		// console.log(this.props.loginInfo)
+		// Check to see if msg = loginSuccess.
+		// If so, they are logged in, let the ProductTableRow know
+		// If not, send appropriate props
+		if(this.props.loginInfo.token != undefined){
+			// these are the droids we're looking for
+		}
+
 		var productTableArray = [];
 		this.state.productList.map((product, index)=>{
 			productTableArray.push(
@@ -105,6 +114,12 @@ class ProductLine extends Component{
 	}
 }
 
+function mapStateToProps(state){
+	return{
+		loginInfo: state.registerReducer
+	}
+}
+
 function mapDispatchToProps(dispatch){
 	return bindActionCreators({
 		updateCart: UpdateCart
@@ -112,4 +127,4 @@ function mapDispatchToProps(dispatch){
 }
 
 // export default ProductLine;
-export default connect(null,mapDispatchToProps)(ProductLine);
+export default connect(mapStateToProps,mapDispatchToProps)(ProductLine);
