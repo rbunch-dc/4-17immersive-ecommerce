@@ -58,8 +58,15 @@ router.post('/updateCart', (req, res)=>{
 			const addToCartQuery = `INSERT INTO cart (uid,productCode) 
 				VALUES (?,?)`;
 			connection.query(addToCartQuery,[results[0].id,req.body.productCode],(results2, error2)=>{
-				// const getCartTotals = 
-				res.json({productNumber: req.body.productCode})			
+				const getCartTotals = `SELECT SUM(buyPrice) as totalPrice, count(buyPrice) as totalItems FROM cart 
+					INNER JOIN products ON products.productCode = cart.productCode WHERE uid=?`
+				connection.query(getCartTotals,[results[0].id],(results3, error3)=>{
+					if(error3){
+						res.json(error3)
+					}else{
+						res.json(results3[0]);
+					}
+				})
 			})
 		}
 	});
