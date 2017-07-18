@@ -1,11 +1,15 @@
 import $ from 'jquery';
 
-export default function(cartData){
-	console.log(cartData)
+export default function(productCode,token){
+	// console.log(cartData)
+	var dataToPass = {
+		productCode: productCode,
+		token: token
+	}
 	var thePromise = $.ajax({
 		method: "POST",
 		url: window.hostAddress + '/updateCart',
-		data: {productCode: cartData}
+		data: dataToPass
 	});
 	return {
 		type: "UPDATE_CART",

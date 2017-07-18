@@ -48,7 +48,22 @@ router.get('/productlines/:productLines/get', (req, res)=>{
 });
 
 router.post('/updateCart', (req, res)=>{
-	res.json({productNumber: req.body.productCode})
+	console.log(req.body)
+	const getUidQuery = `SELECT id from users WHERE token = ?`
+	connection.query(getUidQuery,[req.body.token],(error,results)=>{
+		if(error) throw error;
+		if(results.length == 0 ){
+			res.json({msg:"badToken"})
+		}else{
+			const addToCartQuery = `INSERT INTO cart (uid,productCode) 
+				VALUES (?,?)`;
+			connection.query(addToCartQuery,[results[0].id,req.body.productCode],(results2, error2)=>{
+				// const getCartTotals = 
+				res.json({productNumber: req.body.productCode})			
+			})
+		}
+	});
+
 });
 
 router.post('/register', (req, res)=>{
