@@ -47,6 +47,29 @@ router.get('/productlines/:productLines/get', (req, res)=>{
 	})
 });
 
+router.post('/getCart',(req, res)=>{
+	const getUidQuery = `SELECT id from users WHERE token = ?`
+	connection.query(getUidQuery,[req.body.token],(error,results)=>{
+		const getCartTotals = `SELECT SUM(buyPrice) as totalPrice, count(buyPrice) as totalItems FROM cart 
+			INNER JOIN products ON products.productCode = cart.productCode WHERE uid=?`
+		connection.query(getCartTotals,[results[0].id],(error3,results3)=>{
+			if(error3){
+				res.json(error3)
+			}else{
+				const getCartContents = `SELECT * FROM cart
+				INNER JOIN products on products.productCode = cart.productCode 
+				WHERE uid = ?`
+				connection.query(getCartContents,[results[0].id],(error4,results4)=>{
+					var finalCart = results3[0];
+					finalCart.products = results4
+					res.json(finalCart);
+				})
+			}
+		})
+
+	})
+})
+
 router.post('/updateCart', (req, res)=>{
 	console.log(req.body)
 	const getUidQuery = `SELECT id from users WHERE token = ?`
