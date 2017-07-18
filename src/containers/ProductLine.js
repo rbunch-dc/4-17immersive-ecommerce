@@ -68,6 +68,11 @@ class ProductLine extends Component{
 		// If not, send appropriate props
 		if(this.props.loginInfo.token != undefined){
 			// these are the droids we're looking for
+			var loggedIn = true;
+			var token = this.props.loginInfo.token
+		}else{
+			var loggedIn = false;
+			var token = null
 		}
 
 		var productTableArray = [];
@@ -77,6 +82,8 @@ class ProductLine extends Component{
 					key={index} 
 					product={product} 
 					addToCart={this.props.updateCart} 
+					loggedIn={loggedIn}
+					token={token}
 				/>
 			)
 		})
