@@ -21,6 +21,18 @@ function ProductTableRow(props){
 			<td className={inStockClass}>{inStock}</td>
 			<td>{product.buyPrice}</td>
 			<td>{product.MSRP}</td>
+			<td>
+				<button 
+					className="btn btn-primary"
+					onClick={
+						()=>{
+							//run add to cart function and send productcode
+							console.log("Added to cart!");
+							props.addToCart(product.productCode)
+						}
+					}
+				>Add to Cart</button>
+			</td>
 		</tr>
 	)
 }

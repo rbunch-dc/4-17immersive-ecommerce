@@ -47,6 +47,10 @@ router.get('/productlines/:productLines/get', (req, res)=>{
 	})
 });
 
+router.post('/updateCart', (req, res)=>{
+	res.json({productNumber: req.body.productCode})
+});
+
 router.post('/register', (req, res)=>{
 	console.log(req.body)
 

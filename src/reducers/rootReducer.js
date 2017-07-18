@@ -10,13 +10,15 @@ import { combineReducers } from 'redux';
 // First: import the STudentReducer
 // import StudentReducer from './StudentReducer';
 // Import the register reducer which contains {msg, token}
-import RegisterReducer from './RegisterReducer'
+import RegisterReducer from './RegisterReducer';
 // create a rootReducer using the combineReducer method, so we can export it
 // to the Store in index.js
+import CartReducer from './CartReducer';
 const rootReducer = combineReducers({
 	// Inside here, we pass each reducer as a key/value
 	// Each key will be available as a peice of state later
-	registerReducer: RegisterReducer
+	registerReducer: RegisterReducer,
+	cartReducer: CartReducer
 })
 
 export default rootReducer;

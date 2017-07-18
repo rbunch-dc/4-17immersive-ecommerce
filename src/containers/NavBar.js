@@ -22,6 +22,8 @@ class NavBar extends Component{
 	}
 
   render(){
+  	console.log(this.props.cartInfo)
+
   	// Temp var to store our <link>
   	const shopMenu = [];
   	// Map through this.state.productlines. First render, will not loop (because array is empty)
@@ -82,7 +84,8 @@ class NavBar extends Component{
 
 function mapStateToProps(state){
 	return{
-		registerInfo: state.registerReducer
+		registerInfo: state.registerReducer,
+		cartInfo: state.cartReducer
 	}
 }
 
