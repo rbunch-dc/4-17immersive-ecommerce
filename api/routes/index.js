@@ -9,6 +9,9 @@ var bcrypt = require('bcrypt-nodejs');
 // include rand-token for generating user token
 var randToken = require('rand-token')
 
+var stripe = require('stripe')(config.stripeKey);
+
+
 // set up the connection with options
 var connection = mysql.createConnection({
 	host: config.host,
@@ -205,6 +208,63 @@ router.post('/login', (req, res)=>{
 					msg: 'wrongPassword'
 				})
 			}
+		}
+	})
+})
+
+router.post('/stripe', (req,res)=>{
+	var userToken = req.body.token;
+	var stripeToken = req.body.stripeToken;
+	var amount = req.body.amount;
+	// stripe module which is associated with our secret key
+	// has a create method, which takes an object of options to charge
+	stripe.charges.create({
+		amount: amount,
+		currency: 'usd',
+		source: stripeToken,
+		description: "Charges for classicmodels", 
+	},(error, charge)=>{
+		if(error){
+			res.json({
+				msg: error
+			})
+		}else{
+			// Insert stuff from cart that was just paid into:
+			// - orders
+			const getUserQuery = `SELECT users.uid,cart.productCode,products.buyPrice FROM users 
+				INNER JOIN cart ON users.id = cart.uid
+				INNER JOIN products ON cart.productCode = products.productCode
+			WHERE token = ?`
+			connection.query(getUserQuery, [userToken], (error2, results2)=>{
+				const customerId = results[0].uid;
+				const insertIntoOrders = `INSERT INTO orders
+					(orderDate,requiredDate,comments,status,customerNumber)
+					VALUES
+					(?,?,'Website Order','Paid',?)`
+					connection.query(insertIntoOrders,[Date.now(),Date.now(),customerId],(error3,results3)=>{
+						const newOrderNumber = results3.insertId;
+						// results2 (the select query above) contains an array of rows. 
+						// Each row has the uid, the productCOde, and the price
+						// map through this array, and add each one to the orderdetails tabl
+						results2.map((cartRow)=>{
+							var insertOrderDetail = `INSERT INTO orderdetails
+								(orderNumber,productCode,quantityOrdered,priceEach,orderLineNumber)
+								VALUES
+								(?,?,1,?,1)`
+								connection.query(insertOrderDetail,[newOrderNumber,cartRow.productCode,cartRow.buyPrice],(error4,results4)=>{
+									
+								})
+
+						})
+
+
+					})
+			});
+			// - orderdetails
+			// Then remove it from cart
+			res.json({
+				msg:'paymentSuccess'
+			})
 		}
 	})
 })
