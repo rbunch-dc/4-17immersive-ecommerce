@@ -231,7 +231,7 @@ router.post('/stripe', (req,res)=>{
 		}else{
 			// Insert stuff from cart that was just paid into:
 			// - orders
-			const getUserQuery = `SELECT users.id, users.uid,cart.productCode,products.buyPrice FROM users 
+			const getUserQuery = `SELECT users.id, users.uid,cart.productCode,products.buyPrice, COUNT(cart.productCode) as quantity FROM users 
 				INNER JOIN cart ON users.id = cart.uid
 				INNER JOIN products ON cart.productCode = products.productCode
 			WHERE token = ?
@@ -266,14 +266,14 @@ router.post('/stripe', (req,res)=>{
 							var insertOrderDetail = `INSERT INTO orderdetails
 								(orderNumber,productCode,quantityOrdered,priceEach,orderLineNumber)
 								VALUES
-								(?,?,1,?,1)`
+								(?,?,?,?,1)`
 							// Wrap a promise around our query (because queries are async)
 							// We will call resolve if it succeeds, call reject if it fails
 							// Then, push the promise onto the array above
 							// So that when all of them are finished, we know it's safe to move forward
 
 							const aPromise = new Promise((resolve, reject) => {
-								connection.query(insertOrderDetail,[newOrderNumber,cartRow.productCode,cartRow.buyPrice],(error4,results4)=>{
+								connection.query(insertOrderDetail,[newOrderNumber,cartRow.productCode,cartRow.quantity, cartRow.buyPrice],(error4,results4)=>{
 									// another row finished.
 									if (error4){
 										reject(error4)
